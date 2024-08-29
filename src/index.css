@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center;     /* Center vertically */
+    height: 100%;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.master-container {
+    padding: 10px !important;
+    border: 10px solid yellow;
+    min-width: 600px;
+    max-width: 960px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+}
+
+.concert-filter {
+    background-color: crimson !important;
+    width: 100%; /* Take full width of the container */
+    min-width: 600px;
+    max-width: 960px; /* Ensure it doesn't exceed the container width */
+    display: flex;
+    justify-content: center; /* Center the filter horizontally */
+    align-self: flex-start; /* Align at the top of master-container */
+}
+
+.concert-item-container {
+    min-width: 600px;
+    max-width: 960px !important;
+    margin-bottom: 5px !important;
+    padding: 10px !important;
+    border-style: solid;
+    border-color: red;
+    border-width: 1px 2px 1px 2px;
+    border-radius: 5px;
+}
+
+.concert-item {
+    background: aliceblue;
+}
+
+.dates {
+    background: chartreuse;
+}
