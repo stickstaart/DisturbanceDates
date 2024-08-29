@@ -48,7 +48,7 @@ export default function App() {
 const ConcertFilter = ({ dates, selectedCountry, onCountrySelectedChange }) => {
   return (
     <div>
-      <h3>🔍 FILTER :: FILTER :: FILTER 🔎</h3>
+      <h3>🔍 FILTER :: FILTER :: FILTER FILTER :: FILTER :: 🔎</h3>
       <p>Current country selected: 🌏 {selectedCountry === 'ALL' ? 'ALL' : selectedCountry} 🌏</p>
       <CountriesPlayed dates={dates} onCountrySelectedChange={onCountrySelectedChange} />
     </div>
