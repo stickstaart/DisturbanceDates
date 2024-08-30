@@ -6,7 +6,11 @@ import {
   ListItemText,
   ListItemAvatar,
   Avatar,
-  Divider
+  Divider,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel
 } from '@mui/material';
 import pastShows from './dates';
 import Flag from 'react-world-flags';
@@ -16,6 +20,7 @@ export default function App() {
   const [selectedCountry, setSelectedCountry] = useState('ALL');
   const [dates, setDates] = useState(pastShows);
   const [showHistory, setShowHistory] = useState(false);
+  const [sortOrder, setSortOrder] = useState('desc'); // Default to descending (newest first)
 
   const handleSelectedCountry = (selectedCountry) => {
     setSelectedCountry(selectedCountry);
@@ -25,21 +30,40 @@ export default function App() {
     setShowHistory(!showHistory);
   };
 
+  const handleSortOrderChange = (event) => {
+    setSortOrder(event.target.value);
+  };
+
   return (
     <div className="master-container">
       <ConcertFilter
-        dates={dates}
-        selectedCountry={selectedCountry}
-        className="concert-filter"
-        onCountrySelectedChange={handleSelectedCountry}
-      />
-      <Button onClick={toggleHistory}>
-        {showHistory ? 'HIDE HISTORY' : 'SHOW HISTORY'}
-      </Button>
+      dates={dates}
+      selectedCountry={selectedCountry}
+      className="concert-filter"
+      onCountrySelectedChange={handleSelectedCountry}
+    />
+      <div className="filter-settings">
+        <InputLabel id="sort-order-label">Sort Order</InputLabel>
+        <FormControl variant="outlined" sx={{ m: 2}} className="sort-order">
+          <Select
+            labelId="sort-order-label"
+            value={sortOrder}
+            onChange={handleSortOrderChange}
+          >
+            <MenuItem value="asc">Ascending</MenuItem>
+            <MenuItem value="desc">Descending</MenuItem>
+          </Select>
+        </FormControl>
+        <Button variant={'contained'} onClick={toggleHistory} sx={{ m: 2 }}>
+          {showHistory ? 'HIDE HISTORY' : 'SHOW HISTORY'}
+        </Button>
+      </div>
+
       <Concerts
         dates={dates}
         selectedCountry={selectedCountry}
         showHistory={showHistory}
+        sortOrder={sortOrder}
       />
     </div>
   );
@@ -48,7 +72,7 @@ export default function App() {
 const ConcertFilter = ({ dates, selectedCountry, onCountrySelectedChange }) => {
   return (
     <div>
-      <h3>🔍 FILTER :: FILTER :: FILTER FILTER :: FILTER :: 🔎</h3>
+      <h3>🔍 FILTER :: FILTER :: FILTER 🔎</h3>
       <p>Current country selected: 🌏 {selectedCountry === 'ALL' ? 'ALL' : selectedCountry} 🌏</p>
       <CountriesPlayed dates={dates} onCountrySelectedChange={onCountrySelectedChange} />
     </div>
@@ -74,7 +98,7 @@ const CountriesPlayed = ({ dates, onCountrySelectedChange }) => {
   );
 };
 
-const Concerts = ({ dates, selectedCountry, showHistory }) => {
+const Concerts = ({ dates, selectedCountry, showHistory, sortOrder }) => {
   const now = new Date();
 
   const filteredDates = selectedCountry === 'ALL'
@@ -85,16 +109,29 @@ const Concerts = ({ dates, selectedCountry, showHistory }) => {
   const futureDates = filteredDates.filter(date => new Date(parseDate(date.date)) >= now);
   const pastDates = filteredDates.filter(date => new Date(parseDate(date.date)) < now);
 
+  // Sort dates based on the selected sort order
+  const sortedFutureDates = futureDates.sort((a, b) =>
+    sortOrder === 'asc'
+      ? new Date(parseDate(a.date)) - new Date(parseDate(b.date))
+      : new Date(parseDate(b.date)) - new Date(parseDate(a.date))
+  );
+
+  const sortedPastDates = pastDates.sort((a, b) =>
+    sortOrder === 'asc'
+      ? new Date(parseDate(a.date)) - new Date(parseDate(b.date))
+      : new Date(parseDate(b.date)) - new Date(parseDate(a.date))
+  );
+
   return (
     <>
       <ul className="dates">
-        {futureDates.map((date, index) => (
+        {sortedFutureDates.map((date, index) => (
           <ConcertItem dateObj={date} key={index} />
         ))}
       </ul>
       {showHistory && (
         <ul className="dates history">
-          {pastDates.map((date, index) => (
+          {sortedPastDates.map((date, index) => (
             <ConcertItem dateObj={date} key={index} />
           ))}
         </ul>

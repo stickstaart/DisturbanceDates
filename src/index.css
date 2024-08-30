@@ -22,7 +22,9 @@ code {
 
 .master-container {
     padding: 10px !important;
-    border: 10px solid yellow;
+    background-color: rgba(176, 196, 222, 0.2);
+    border: 1px solid black;
+    border-radius: 5px;
     min-width: 600px;
     max-width: 960px;
     height: 100%;
@@ -47,17 +49,24 @@ code {
     min-width: 600px;
     max-width: 960px !important;
     margin-bottom: 5px !important;
-    padding: 10px !important;
+    padding: 5px !important;
     border-style: solid;
-    border-color: red;
+    border-color: black;
     border-width: 1px 2px 1px 2px;
     border-radius: 5px;
 }
 
 .concert-item {
-    background: aliceblue;
+    background: rgba(176, 196, 222, 0.4);
 }
 
-.dates {
-    background: chartreuse;
+.filter-settings {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid red;
+}
+
+.sort-order {
+    background-color: rgb(176, 196, 222);
 }
